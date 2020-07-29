@@ -1,4 +1,6 @@
-package pages;
+package PageObject;
 
 public class MyDashboardPage {
+
+
 }
