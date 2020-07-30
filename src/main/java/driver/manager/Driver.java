@@ -1,27 +1,29 @@
 package driver.manager;
 
+import java.util.concurrent.TimeUnit;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Driver {
-    private static WebDriver driver;
+    private static ThreadLocal<WebDriver> driverTL = new ThreadLocal<>();
 
     private Driver() {
     }
 
     public static WebDriver getDriver() {
-        if (driver == null) {
+        if (driverTL.get() == null) {
             init();
         }
-        return driver;
+        return driverTL.get();
     }
 
     public static void killDriver() {
-        if (driver != null) {
-            driver.quit();
-            driver = null;
+        if (driverTL.get() != null) {
+            driverTL.get().quit();
+            driverTL.remove();
         }
     }
 
@@ -30,16 +32,19 @@ public class Driver {
         switch (browser) {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
-                driver.manage().window().maximize();
+                driverTL.set(new ChromeDriver());
+                driverTL.get().manage().window().maximize();
                 break;
             case "firefox":
                 WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver();
-                driver.manage().window().maximize();
+                driverTL.set(new FirefoxDriver());
+                driverTL.get().manage().window().maximize();
                 break;
             default:
                 throw new IllegalArgumentException(String.format("Browser %s not found", browser));
         }
+        driverTL.get().manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS); //было 10 сек, поменял на 5
+        driverTL.get().manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
+        driverTL.get().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 }

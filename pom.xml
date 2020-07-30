@@ -19,6 +19,7 @@
     <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
     <aspectj.version>1.8.10</aspectj.version>
     <allure-testng.version>2.6.0</allure-testng.version>
+    <threads>1</threads>
   </properties>
 
   <dependencies>
@@ -35,7 +36,7 @@
     </dependency>
     <dependency>
       <groupId>io.qameta.allure</groupId>
-      <artifactId>allure-testng</artifactId>
+      <artifactId>allure-cucumber5-jvm</artifactId>
       <version>2.13.5</version>
     </dependency>
     <dependency>
@@ -56,7 +57,7 @@
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-testng</artifactId>
-      <version>6.3.0</version>
+      <version>5.7.0</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -113,6 +114,12 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin.version}</version>
           <configuration>
+            <properties>
+              <property>
+                <name>dataproviderthreadcount</name>
+                <value>${threads}</value>
+              </property>
+            </properties>
             <argLine>-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"</argLine>
             <systemProperties>
               <property>

@@ -2,7 +2,10 @@ package PageObject;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static driver.manager.Driver.getDriver;
 
@@ -10,9 +13,15 @@ public abstract class AbstractPage {
 
     private static final By OPEN_SELECT_LANGUAGE_LIST = By.id("select-language");
 
-    /*public AbstractPage() {
-        ((JavascriptExecutor) getDriver()).executeScript("document.getElementById('close-fixedban').click()");
-    }*/
+    public AbstractPage()  {
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), 3);
+            WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.id("close-fixedban")));
+            ((JavascriptExecutor) getDriver()).executeScript("document.getElementById('close-fixedban').click()");
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+    }
 
     public enum Language {
         ENG("English"),

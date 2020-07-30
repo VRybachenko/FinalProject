@@ -8,3 +8,7 @@ Feature: "Madison Island" Shop
     And I tap on "My Account" button
     When I tap on "Create An Account" Button
     Then I check if "First Name Field" present
+    Then I check if "Last Name Field" present
+    Then I check if "Email Address Field" present
+    Then I check if "Password Field Field" present
+    Then I check if "Confirm Pass Field" present

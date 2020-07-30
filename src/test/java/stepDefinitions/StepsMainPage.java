@@ -1,11 +1,12 @@
 package stepDefinitions;
 
+import PageObject.AbstractPage;
 import PageObject.MainPage;
 import io.cucumber.java.en.When;
 
 import static driver.manager.Driver.getDriver;
 
-public class StepsMainPage extends MainPage {
+public class StepsMainPage {
 
     @When("I am navigate to {string} url")
     public void i_am_navigate_to_url(String url) {
@@ -13,9 +14,9 @@ public class StepsMainPage extends MainPage {
     }
 
     //https://stackoverflow.com/questions/34718083/is-it-possible-to-pass-java-enum-as-argument-from-cucumber-feature-file
-    //@When("^I choose ?\"(.*)?\" language$") - Олег
-    @When("^I choose \"([^\"]*)\" language$")
-    public void i_choose_automation_language(Language lang) {
+    //@When("^I choose \"([^\"]*)\" language$")
+    @When("^I choose ?\"([^\"]*)?\" language$")
+    public void i_choose_automation_language(AbstractPage.Language lang) {
         new MainPage().chooseAutomationLanguage(lang);
     }
 
