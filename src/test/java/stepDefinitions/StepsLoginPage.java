@@ -5,7 +5,7 @@ import io.cucumber.java.en.When;
 
 public class StepsLoginPage {
 
-    @When("I tap on \"Create An Account\" Button")
+    @When("I tap on \"Create An Account\" button")
     public void i_tap_on_create_an_account_button() {
         new LoginPage().tapOnCreateAnAccountButton();
     }

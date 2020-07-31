@@ -51,7 +51,7 @@ public abstract class AbstractPage {
     }
 
     public void chooseAutomationLanguage(Language lang) {
-        Select dropdown = new Select(getDriver().findElement(OPEN_SELECT_LANGUAGE_LIST));
-        dropdown.selectByVisibleText(lang.toString());
+        Select chooseAutomationLanguage = new Select(getDriver().findElement(OPEN_SELECT_LANGUAGE_LIST));
+        chooseAutomationLanguage.selectByVisibleText(lang.toString());
     }
 }

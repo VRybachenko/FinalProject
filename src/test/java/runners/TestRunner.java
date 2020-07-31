@@ -8,7 +8,7 @@ import org.testng.annotations.DataProvider;
 @CucumberOptions(
         features = {"src/test/resources/"},
         glue = "stepDefinitions",
-        tags = {"not @Defect"},
+        tags = {"not @Muted "},
         plugin = {"io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm", "pretty", "json:target/cucumber-report/report.json"}
 )
 

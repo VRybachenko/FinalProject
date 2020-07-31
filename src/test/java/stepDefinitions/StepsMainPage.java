@@ -20,7 +20,7 @@ public class StepsMainPage {
         new MainPage().chooseAutomationLanguage(lang);
     }
 
-    @When("I tap on \"Account\" Button")
+    @When("I tap on \"Account\" button")
     public void i_tap_on_account_button() {
         new MainPage().tapOnAccountButton();
     }
@@ -28,5 +28,15 @@ public class StepsMainPage {
     @When("I tap on \"My Account\" button")
     public void i_tap_on_my_account_button() {
         new MainPage().tapOnMyAccountButton();
+    }
+
+    @When("I move the cursor to \"HOME & DECOR\" button")
+    public void i_move_the_cursor_to_home_and_decor_button() {
+        new MainPage().moveTheCursorToHomeAndDecor();
+    }
+
+    @When("I chose \"Electronics\" page from list")
+    public void i_chose_electronics_page_from_list() {
+        new MainPage().choseElectronicsPageFromList();
     }
 }
