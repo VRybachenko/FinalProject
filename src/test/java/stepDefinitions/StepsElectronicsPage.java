@@ -18,7 +18,11 @@ public class StepsElectronicsPage {
 
     @Then("I compare or the count of elements on the page equals elements on the page")
     public void i_compare_or_the_count_of_elements_on_the_page_equals_elements_on_the_page() {
-        new ElectronicsPage().compareTheCountOfElementsOnThePage();
+        new ElectronicsPage().verifyTheCountOfElementsOnThePage();
     }
 
+    @Then("I verify that only {int} items are shown on each page")
+    public void i_verify_that_only_counter_items_are_show_on_each_page(int counter) {
+        new ElectronicsPage().verifyTheCountOfElementsOnEachPage(counter);
+    }
 }

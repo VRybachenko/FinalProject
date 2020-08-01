@@ -14,6 +14,7 @@ Feature: "Madison Island" Shop
     Then I check if "Password Field Field" present
     Then I check if "Confirm Pass Field" present
 
+  @Muted
   Scenario: Check Items counter
     Given I am navigate to "http://magento.mainacad.com/" url
     And I choose "AUTO" language
@@ -23,3 +24,11 @@ Feature: "Madison Island" Shop
     When I choose "Twentyfive" of items on page
     Then I compare or the count of elements on the page equals elements on the page
 
+  Scenario: Check SHOW select
+    Given I am navigate to "http://magento.mainacad.com/" url
+    And I choose "AUTO" language
+    And I move the cursor to "HOME & DECOR" button
+    And I chose "Electronics" page from list
+    And I tap on "View As List" Button
+    When I choose "Five" of items on page
+    Then I verify that only 5 items are shown on each page

@@ -19,6 +19,8 @@ public class ElectronicsPage extends AbstractPage {
                                                                                "select[title='Results per page']");
     private static final By AMOUNT_ITEMS_ON_PAGE = By.cssSelector(".category-products > .toolbar:nth-of-type(1) .pager strong");
     private static final By LIST_OF_ITEMS_ON_PAGE = By.cssSelector("ol#products-list > li");
+    private static final By LIST_OF_PAGES = By.cssSelector(".category-products > .toolbar > .pager > .pages > ol > li");
+    private static final By NEXT_PAGE_BUTTON = By.cssSelector(".category-products > .toolbar > .pager > .pages > ol  a[title='Next']");
 
 
     public void tapOnViewAsListButton() {
@@ -50,12 +52,29 @@ public class ElectronicsPage extends AbstractPage {
         selectItemsOnPage.selectByVisibleText(count.toString());
     }
 
-    public void compareTheCountOfElementsOnThePage() {
+    public void verifyTheCountOfElementsOnThePage() {
         List<WebElement> listOfElements = new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(LIST_OF_ITEMS_ON_PAGE));
-        int amountOnPage = listOfElements.size();
+        int amountProductOnPage = listOfElements.size();
+
         String items = getDriver().findElement(AMOUNT_ITEMS_ON_PAGE).getText();
         int counterAmount = extractIntFromString(items);
 
-        Assert.assertEquals(amountOnPage, counterAmount, "Amount on page not equals to the counter");
+        Assert.assertEquals(amountProductOnPage, counterAmount, "Invalid count");
+    }
+
+    public void verifyTheCountOfElementsOnEachPage(int counter) {
+        int countOfPages = getDriver().findElements(LIST_OF_PAGES).size();
+
+        for (int i = 1; i < countOfPages; i++) {
+            List<WebElement> listOfElements = new WebDriverWait(getDriver(), 10).until(
+                    ExpectedConditions.presenceOfAllElementsLocatedBy(LIST_OF_ITEMS_ON_PAGE));
+            int amountProductOnPage = listOfElements.size();
+            if (i < countOfPages - 1) {
+                Assert.assertEquals(amountProductOnPage, counter, "");
+                getDriver().findElement(NEXT_PAGE_BUTTON).click();
+            } else {
+                Assert.assertTrue(amountProductOnPage <= counter, "Invalid count");
+            }
+        }
     }
 }
