@@ -34,7 +34,7 @@ Feature: "Madison Island" Shop
     When I choose "Five" of items on page
     Then I verify that only 5 items are shown on each page
 
-
+  @Muted
   Scenario: Check “SORT BY”
     Given I am navigate to "http://magento.mainacad.com/" url
     And I choose "AUTO" language
@@ -46,3 +46,12 @@ Feature: "Madison Island" Shop
     Then I verify sort by price
 
 
+  Scenario: Check “PRICE” filter
+    Given I am navigate to "http://magento.mainacad.com/" url
+    And I choose "AUTO" language
+    And I move the cursor to "HOME & DECOR" button
+    And I chose "Electronics" page from list
+    And I tap on "View As List" Button
+    And I choose "Twentyfive" of items on page
+    When I tap on "$0.00 - $999.99" price from "Shop By"
+    Then I verify that the price of all items is less than "999.99"

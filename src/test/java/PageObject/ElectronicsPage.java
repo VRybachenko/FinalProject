@@ -27,6 +27,7 @@ public class ElectronicsPage extends AbstractPage {
     private static final By SORT_BY_LIST = By.cssSelector(".category-products > .toolbar > .sorter > .sort-by > select[title='Sort By']");
     private static final By PRICE_OF_PRODUCTS = By.cssSelector(
             "li .regular-price > .price, li > .product-shop .price-from > .price, li .product-shop .price-to > .price");
+    private static final By FIRST_PRICE_FROM_SHOP_BY = By.linkText("$0.00 - $999.99 (11)");
 
     public void tapOnViewAsListButton() {
         WebElement viewAsListButton = getDriver().findElement(VIEW_AS_LIST_BUTTON);
@@ -118,6 +119,27 @@ public class ElectronicsPage extends AbstractPage {
 
         for (int i = 0; i < listOfPriceDouble.size() - 2; i++) {
             Assert.assertTrue(listOfPriceDouble.get(i) < listOfPriceDouble.get(i + 1), "Invalid count");
+        }
+    }
+
+    public void tapOnFirstPriceFromShopBy() {
+        WebElement firstPriceFromShopBy = getDriver().findElement(FIRST_PRICE_FROM_SHOP_BY);
+        firstPriceFromShopBy.click();
+    }
+
+    public void verifyThatThePriceOfItemsIsLessThenIndicatedPrice() {
+        List<WebElement> listOfPriceWebElement = new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(PRICE_OF_PRODUCTS));
+
+        List<Double> listOfPriceDouble;
+        listOfPriceDouble = listOfPriceWebElement.stream()
+                                                 .map(WebElement::getText)
+                                                 .map(s -> s.replaceAll("[^a-zA-Z0-9.]", ""))
+                                                 .map(Double::parseDouble)
+                                                 .collect(Collectors.toList());
+
+
+        for (Double aDouble : listOfPriceDouble) {
+            Assert.assertTrue(aDouble < 999.99, "Invalid price");
         }
     }
 }

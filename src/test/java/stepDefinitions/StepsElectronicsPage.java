@@ -35,4 +35,14 @@ public class StepsElectronicsPage {
     public void i_verify_sort_by_price() {
         new ElectronicsPage().verifySortByPrice();
     }
+
+    @When("I tap on \"$0.00 - $999.99\" price from \"Shop By\"")
+    public void i_tap_on_price_from_shop_by() {
+        new ElectronicsPage().tapOnFirstPriceFromShopBy();
+    }
+
+    @Then("I verify that the price of all items is less than \"999.99\"")
+    public void i_verify_that_the_price_of_all_items_is_less_than_indicated_price() {
+        new ElectronicsPage().verifyThatThePriceOfItemsIsLessThenIndicatedPrice();
+    }
 }
