@@ -1,7 +1,10 @@
 package PageObject;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -21,7 +24,9 @@ public class ElectronicsPage extends AbstractPage {
     private static final By LIST_OF_ITEMS_ON_PAGE = By.cssSelector("ol#products-list > li");
     private static final By LIST_OF_PAGES = By.cssSelector(".category-products > .toolbar > .pager > .pages > ol > li");
     private static final By NEXT_PAGE_BUTTON = By.cssSelector(".category-products > .toolbar > .pager > .pages > ol  a[title='Next']");
-
+    private static final By SORT_BY_LIST = By.cssSelector(".category-products > .toolbar > .sorter > .sort-by > select[title='Sort By']");
+    private static final By PRICE_OF_PRODUCTS = By.cssSelector(
+            "li .regular-price > .price, li > .product-shop .price-from > .price, li .product-shop .price-to > .price");
 
     public void tapOnViewAsListButton() {
         WebElement viewAsListButton = getDriver().findElement(VIEW_AS_LIST_BUTTON);
@@ -74,6 +79,50 @@ public class ElectronicsPage extends AbstractPage {
                 getDriver().findElement(NEXT_PAGE_BUTTON).click();
             } else {
                 Assert.assertTrue(amountProductOnPage <= counter, "Invalid count");
+            }
+        }
+    }
+
+    public enum SortBy {
+        Position("Position"),
+        Name("Name"),
+        Price("Price");
+
+        private final String typeOfSort;
+
+        SortBy(String count) {
+            this.typeOfSort = count;
+        }
+
+        @Override
+        public String toString() {
+            return typeOfSort;
+        }
+    }
+
+    public void selectTypeOfSortBy(SortBy typeOfSort) {
+        Select selectTypeOfSortBy = new Select(getDriver().findElement(SORT_BY_LIST));
+        selectTypeOfSortBy.selectByVisibleText(typeOfSort.toString());
+    }
+
+    public void verifySortByPrice() {
+        List<WebElement> listOfPriceWebElement = new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(PRICE_OF_PRODUCTS));
+
+        List<String> listOfPriceString = new ArrayList<>();
+        for (WebElement e : listOfPriceWebElement) {
+            listOfPriceString.add(e.getText());
+        }
+        listOfPriceString = listOfPriceString.stream().map(s -> s.replaceAll("[^a-zA-Z0-9.\"]", "")).collect(Collectors.toList());
+
+        List<Double> listOfPriceDouble = new ArrayList<>();
+        for (String e : listOfPriceString) {
+            listOfPriceDouble.add(Double.valueOf(e));
+        }
+
+        for (int i = 0; i < listOfPriceDouble.size() - 1; i++) {
+            for (int k = i + 1; k < listOfPriceDouble.size(); ) {
+                Assert.assertTrue(listOfPriceDouble.get(i) < listOfPriceDouble.get(k), "Invalid count");
+                break;
             }
         }
     }

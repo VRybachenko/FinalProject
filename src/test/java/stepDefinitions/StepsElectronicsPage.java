@@ -25,4 +25,14 @@ public class StepsElectronicsPage {
     public void i_verify_that_only_counter_items_are_show_on_each_page(int counter) {
         new ElectronicsPage().verifyTheCountOfElementsOnEachPage(counter);
     }
+
+    @When("^I select type ?\"([^\"]*)?\" of Sort By$")
+    public void i_select_type_of_sort_by(ElectronicsPage.SortBy typeOfSort) {
+        new ElectronicsPage().selectTypeOfSortBy(typeOfSort);
+    }
+
+    @Then("I verify sort by price")
+    public void i_verify_sort_by_price() {
+        new ElectronicsPage().verifySortByPrice();
+    }
 }
