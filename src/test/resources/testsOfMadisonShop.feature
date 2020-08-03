@@ -34,6 +34,7 @@ Feature: "Madison Island" Shop
     When I choose "Five" of items on page
     Then I verify that only 5 items are shown on each page
 
+
   Scenario: Check “SORT BY”
     Given I am navigate to "http://magento.mainacad.com/" url
     And I choose "AUTO" language
@@ -43,3 +44,5 @@ Feature: "Madison Island" Shop
     And I choose "Twentyfive" of items on page
     When I select type "Price" of Sort By
     Then I verify sort by price
+
+

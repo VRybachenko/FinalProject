@@ -108,22 +108,16 @@ public class ElectronicsPage extends AbstractPage {
     public void verifySortByPrice() {
         List<WebElement> listOfPriceWebElement = new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(PRICE_OF_PRODUCTS));
 
-        List<String> listOfPriceString = new ArrayList<>();
-        for (WebElement e : listOfPriceWebElement) {
-            listOfPriceString.add(e.getText());
-        }
-        listOfPriceString = listOfPriceString.stream().map(s -> s.replaceAll("[^a-zA-Z0-9.\"]", "")).collect(Collectors.toList());
+        List<Double> listOfPriceDouble;
+        listOfPriceDouble = listOfPriceWebElement.stream()
+                                                 .map(WebElement::getText)
+                                                 .map(s -> s.replaceAll("[^a-zA-Z0-9.]", ""))
+                                                 .map(Double::parseDouble)
+                                                 .collect(Collectors.toList());
 
-        List<Double> listOfPriceDouble = new ArrayList<>();
-        for (String e : listOfPriceString) {
-            listOfPriceDouble.add(Double.valueOf(e));
-        }
 
-        for (int i = 0; i < listOfPriceDouble.size() - 1; i++) {
-            for (int k = i + 1; k < listOfPriceDouble.size(); ) {
-                Assert.assertTrue(listOfPriceDouble.get(i) < listOfPriceDouble.get(k), "Invalid count");
-                break;
-            }
+        for (int i = 0; i < listOfPriceDouble.size() - 2; i++) {
+            Assert.assertTrue(listOfPriceDouble.get(i) < listOfPriceDouble.get(i + 1), "Invalid count");
         }
     }
 }
