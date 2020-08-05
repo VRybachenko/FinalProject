@@ -45,4 +45,9 @@ public class StepsElectronicsPage {
     public void i_verify_that_the_price_of_all_items_is_less_than_indicated_price() {
         new ElectronicsPage().verifyThatThePriceOfItemsIsLessThenIndicatedPrice();
     }
+
+    @When("I choose any random item and tap on \"Add to Wishlist\" button")
+    public void i_choose_any_random_item_and_tap_on_wishlist_button() {
+        new ElectronicsPage().chooseAnyRandomItemAndTapOnWishListButton();
+    }
 }

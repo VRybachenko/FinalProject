@@ -1,10 +1,9 @@
 package PageObject;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.Lists;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -28,6 +27,11 @@ public class ElectronicsPage extends AbstractPage {
     private static final By PRICE_OF_PRODUCTS = By.cssSelector(
             "li .regular-price > .price, li > .product-shop .price-from > .price, li .product-shop .price-to > .price");
     private static final By FIRST_PRICE_FROM_SHOP_BY = By.linkText("$0.00 - $999.99 (11)");
+    private static final By ADD_WISHLIST_BUTTON = By.linkText("Add to Wishlist");
+    private static final By TITLE_OF_ELEMENT = By.cssSelector("ol#products-list > li .product-name");
+
+    public static volatile WebElement element;
+    public static volatile String nameOfTitleOfElementOnElectronicsPage;
 
     public void tapOnViewAsListButton() {
         WebElement viewAsListButton = getDriver().findElement(VIEW_AS_LIST_BUTTON);
@@ -141,5 +145,17 @@ public class ElectronicsPage extends AbstractPage {
         for (Double aDouble : listOfPriceDouble) {
             Assert.assertTrue(aDouble < 999.99, "Invalid price");
         }
+    }
+
+    public void chooseAnyRandomItemAndTapOnWishListButton() {
+        List<WebElement> listOfElements = new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(LIST_OF_ITEMS_ON_PAGE));
+        int amountOfElements = listOfElements.size();
+
+        Random random = new Random();
+        int randomElements = random.nextInt(amountOfElements);
+
+        element = listOfElements.get(randomElements);
+        nameOfTitleOfElementOnElectronicsPage = element.findElement(TITLE_OF_ELEMENT).getText();
+        element.findElement(ADD_WISHLIST_BUTTON).click();
     }
 }

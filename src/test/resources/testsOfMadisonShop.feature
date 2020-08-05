@@ -45,7 +45,7 @@ Feature: "Madison Island" Shop
     When I select type "Price" of Sort By
     Then I verify sort by price
 
-
+  @Muted
   Scenario: Check “PRICE” filter
     Given I am navigate to "http://magento.mainacad.com/" url
     And I choose "AUTO" language
@@ -55,3 +55,22 @@ Feature: "Madison Island" Shop
     And I choose "Twentyfive" of items on page
     When I tap on "$0.00 - $999.99" price from "Shop By"
     Then I verify that the price of all items is less than "999.99"
+
+  Scenario: Check “Add to Wishlist”
+    Given I am navigate to "http://magento.mainacad.com/" url
+    And I choose "AUTO" language
+    And I tap on "Account" button
+    And I tap on "My Account" button
+    And I tap on "Create An Account" button
+    And I input "Test" in User Name
+    And I input "Testovich" in Last Name
+    And I input Email Address on Registration Page
+    And I input password: "qwert1234" on Registration Page
+    And I confirm password: "qwert1234"
+    And I tap on "Register" button
+    And I move the cursor to "HOME & DECOR" button
+    And I chose "Electronics" page from list
+    And I tap on "View As List" Button
+    And I choose "Twentyfive" of items on page
+    When I choose any random item and tap on "Add to Wishlist" button
+    Then I check if name of the chosen item is present
