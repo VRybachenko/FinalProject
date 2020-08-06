@@ -33,6 +33,14 @@ public class ElectronicsPage extends AbstractPage {
     public static volatile WebElement element;
     public static volatile String nameOfTitleOfElementOnElectronicsPage;
 
+    public static String getNameOfTitleOfElementOnElectronicsPage() {
+        return nameOfTitleOfElementOnElectronicsPage;
+    }
+
+    public static void setNameOfTitleOfElementOnElectronicsPage(String nameOfTitleOfElementOnElectronicsPage) {
+        ElectronicsPage.nameOfTitleOfElementOnElectronicsPage = nameOfTitleOfElementOnElectronicsPage;
+    }
+
     public void tapOnViewAsListButton() {
         WebElement viewAsListButton = getDriver().findElement(VIEW_AS_LIST_BUTTON);
         viewAsListButton.click();
@@ -155,7 +163,7 @@ public class ElectronicsPage extends AbstractPage {
         int randomElements = random.nextInt(amountOfElements);
 
         element = listOfElements.get(randomElements);
-        nameOfTitleOfElementOnElectronicsPage = element.findElement(TITLE_OF_ELEMENT).getText();
+        setNameOfTitleOfElementOnElectronicsPage(element.findElement(TITLE_OF_ELEMENT).getText());
         element.findElement(ADD_WISHLIST_BUTTON).click();
     }
 }
