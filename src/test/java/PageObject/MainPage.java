@@ -14,6 +14,7 @@ public class MainPage extends AbstractPage {
     private static final By MY_ACCOUNT_BUTTON = By.cssSelector("#header-account [title='My Account']");
     private static final By HOME_AND_DECOR = By.linkText("HOME & DECOR");
     private static final By ELECTRONICS = By.linkText("Electronics");
+    private static final By SALE_BUTTON = By.cssSelector(".level0.nav-5.parent > .has-children.level0");
 
     public void tapOnAccountButton() {
         WebElement accountButton = getDriver().findElement(ACCOUNT_BUTTON);
@@ -35,5 +36,10 @@ public class MainPage extends AbstractPage {
     public void choseElectronicsPageFromList() {
         WebElement electronicsPage = getDriver().findElement(ELECTRONICS);
         electronicsPage.click();
+    }
+
+    public void tapTheOnSaleButton() {
+        WebElement saleButton = getDriver().findElement(SALE_BUTTON);
+        saleButton.click();
     }
 }

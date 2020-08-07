@@ -31,14 +31,14 @@ public class ElectronicsPage extends AbstractPage {
     private static final By TITLE_OF_ELEMENT = By.cssSelector("ol#products-list > li .product-name");
 
     public static volatile WebElement element;
-    public static volatile String nameOfTitleOfElementOnElectronicsPage;
+    private static ThreadLocal<String> nameOfTitleOfElementOnElectronicsPage = new ThreadLocal<>();
 
-    public static String getNameOfTitleOfElementOnElectronicsPage() {
-        return nameOfTitleOfElementOnElectronicsPage;
+    public static synchronized String getNameOfTitleOfElementOnElectronicsPage() {
+        return nameOfTitleOfElementOnElectronicsPage.get();
     }
 
-    public static void setNameOfTitleOfElementOnElectronicsPage(String nameOfTitleOfElementOnElectronicsPage) {
-        ElectronicsPage.nameOfTitleOfElementOnElectronicsPage = nameOfTitleOfElementOnElectronicsPage;
+    public synchronized void setNameOfTitleOfElementOnElectronicsPage(String nameOfTitleOfElementOnElectronicsPage) {
+        ElectronicsPage.nameOfTitleOfElementOnElectronicsPage.set(nameOfTitleOfElementOnElectronicsPage);
     }
 
     public void tapOnViewAsListButton() {

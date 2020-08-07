@@ -11,7 +11,7 @@ public class StepsElectronicsPage {
         new ElectronicsPage().tapOnViewAsListButton();
     }
 
-    @When("^I choose ?\"([^\"]*)?\" of items on page$")
+    @When("^I choose ?\"([^\"]*)?\" of items on Electronics page$")
     public void i_choose_count_of_items_on_page(ElectronicsPage.CountOfItemsOnPage count) {
         new ElectronicsPage().selectItemsOnPage(count);
     }

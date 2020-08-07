@@ -21,7 +21,7 @@ Feature: "Madison Island" Shop
     And I move the cursor to "HOME & DECOR" button
     And I chose "Electronics" page from list
     And I tap on "View As List" Button
-    When I choose "Twentyfive" of items on page
+    When I choose "Twentyfive" of items on Electronics page
     Then I compare or the count of elements on the page equals elements on the page
 
   @Muted
@@ -31,7 +31,7 @@ Feature: "Madison Island" Shop
     And I move the cursor to "HOME & DECOR" button
     And I chose "Electronics" page from list
     And I tap on "View As List" Button
-    When I choose "Five" of items on page
+    When I choose "Five" of items on Electronics page
     Then I verify that only 5 items are shown on each page
 
   @Muted
@@ -41,7 +41,7 @@ Feature: "Madison Island" Shop
     And I move the cursor to "HOME & DECOR" button
     And I chose "Electronics" page from list
     And I tap on "View As List" Button
-    And I choose "Twentyfive" of items on page
+    And I choose "Twentyfive" of items on Electronics page
     When I select type "Price" of Sort By
     Then I verify sort by price
 
@@ -52,10 +52,11 @@ Feature: "Madison Island" Shop
     And I move the cursor to "HOME & DECOR" button
     And I chose "Electronics" page from list
     And I tap on "View As List" Button
-    And I choose "Twentyfive" of items on page
+    And I choose "Twentyfive" of items on Electronics page
     When I tap on "$0.00 - $999.99" price from "Shop By"
     Then I verify that the price of all items is less than "999.99"
 
+  @Muted
   Scenario: Check “Add to Wishlist”
     Given I am navigate to "http://magento.mainacad.com/" url
     And I choose "AUTO" language
@@ -71,6 +72,15 @@ Feature: "Madison Island" Shop
     And I move the cursor to "HOME & DECOR" button
     And I chose "Electronics" page from list
     And I tap on "View As List" Button
-    And I choose "Twentyfive" of items on page
+    And I choose "Twentyfive" of items on Electronics page
     When I choose any random item and tap on "Add to Wishlist" button
     Then I check if name of the chosen item is present
+
+  @Muted
+  Scenario: Check “SALE”
+    Given I am navigate to "http://magento.mainacad.com/" url
+    And I choose "AUTO" language
+    And I tap on the "Sale" button
+    And I tap on "grid view" button
+    When I choose "ThirtySix" of items on Sale page
+    Then I verify that the old price is higher than a sale price for each item

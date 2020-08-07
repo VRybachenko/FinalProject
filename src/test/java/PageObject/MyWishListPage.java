@@ -11,14 +11,14 @@ public class MyWishListPage extends AbstractPage {
 
     public static final By PRODUCT_NAME_FIELD = By.cssSelector(".product-name [title]");
 
-    private static volatile String nameOfTitleOfElementOnMyWishListPage;
+    private static ThreadLocal<String> nameOfTitleOfElementOnMyWishListPage = new ThreadLocal<>();
 
     public static synchronized String getNameOfTitleOfElementOnMyWishListPage() {
-        return nameOfTitleOfElementOnMyWishListPage;
+        return nameOfTitleOfElementOnMyWishListPage.get();
     }
 
     public synchronized void setNameOfTitleOfElementOnMyWishListPage(String nameOfTitleOfElementOnMyWishListPage) {
-        MyWishListPage.nameOfTitleOfElementOnMyWishListPage = nameOfTitleOfElementOnMyWishListPage;
+        MyWishListPage.nameOfTitleOfElementOnMyWishListPage.set(nameOfTitleOfElementOnMyWishListPage);
     }
 
     public void checkProductNameField() {

@@ -39,4 +39,9 @@ public class StepsMainPage {
     public void i_chose_electronics_page_from_list() {
         new MainPage().choseElectronicsPageFromList();
     }
+
+    @When("I tap on the \"Sale\" button")
+    public void i_tap_on_the_sale_button() {
+        new MainPage().tapTheOnSaleButton();
+    }
 }

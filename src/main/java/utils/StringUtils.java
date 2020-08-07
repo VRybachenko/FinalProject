@@ -16,13 +16,7 @@ public class StringUtils {
     }
 
     public static Double extractDoubleFromString(String price) {
-        Pattern pattern = Pattern.compile("\\d+.\\d+");
-        Matcher matcher = pattern.matcher(price);
-        Double extractedDouble = null;
-        while (matcher.find()) {
-            extractedDouble = Double.parseDouble(matcher.group());
-        }
-        return extractedDouble;
+        return Double.parseDouble(price.replaceAll("[^a-zA-Z0-9.]", ""));
     }
 
     public static String convertIntToString(int integerValue) {
