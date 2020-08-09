@@ -24,19 +24,19 @@ public class SalePage {
     private static final By PRICES_WITHOUT_SALE = By.cssSelector(".old-price > .price");
     private static final By PRICES_WITH_SALE = By.cssSelector(".special-price");
 
-    public void tapOnGridViewButton() {
+    public void tapOnGridViewButtonOnSalePage() {
         WebElement gridViewButton = getDriver().findElement(GRID_VIEW_BUTTON);
         gridViewButton.click();
     }
 
-    public enum CountOfItemsOnSalePage {
+    public enum CountOfItemsOnSalePageInGridView {
         Twelve("12"),
         TwentyFour("24"),
         ThirtySix("36");
 
         private final String count;
 
-        CountOfItemsOnSalePage(String count) {
+        CountOfItemsOnSalePageInGridView(String count) {
             this.count = count;
         }
 
@@ -46,7 +46,7 @@ public class SalePage {
         }
     }
 
-    public void selectItemsOnSalePage(CountOfItemsOnSalePage count) {
+    public void selectItemsOnSalePageInGridView(CountOfItemsOnSalePageInGridView count) {
         Select selectItemsOnPage = new Select(getDriver().findElement(OPEN_SELECT_ITEMS_ON_PAGE));
         selectItemsOnPage.selectByVisibleText(count.toString());
     }
@@ -66,11 +66,9 @@ public class SalePage {
             items.add(item);
         }
 
-
         for (Item item : items) {
             Assert.assertTrue(item.getPrice() > item.getSalePrice(), "Old price is higher than a sale " +
                     "price!");
-
         }
     }
 }

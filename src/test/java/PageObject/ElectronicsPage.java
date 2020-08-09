@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -20,25 +21,45 @@ public class ElectronicsPage extends AbstractPage {
     private static final By OPEN_SELECT_ITEMS_ON_PAGE = By.cssSelector(".category-products > .toolbar > .pager > .count-container > .limiter > " +
                                                                                "select[title='Results per page']");
     private static final By AMOUNT_ITEMS_ON_PAGE = By.cssSelector(".category-products > .toolbar:nth-of-type(1) .pager strong");
-    private static final By LIST_OF_ITEMS_ON_PAGE = By.cssSelector("ol#products-list > li");
+    private static final By LIST_OF_ITEMS_ON_PAGE_IN_LIST_VIEW = By.cssSelector("ol#products-list > li");
     private static final By LIST_OF_PAGES = By.cssSelector(".category-products > .toolbar > .pager > .pages > ol > li");
     private static final By NEXT_PAGE_BUTTON = By.cssSelector(".category-products > .toolbar > .pager > .pages > ol  a[title='Next']");
     private static final By SORT_BY_LIST = By.cssSelector(".category-products > .toolbar > .sorter > .sort-by > select[title='Sort By']");
-    private static final By PRICE_OF_PRODUCTS = By.cssSelector(
+    private static final By PRICE_OF_PRODUCTS_IN_LIST_VIEW = By.cssSelector(
             "li .regular-price > .price, li > .product-shop .price-from > .price, li .product-shop .price-to > .price");
     private static final By FIRST_PRICE_FROM_SHOP_BY = By.linkText("$0.00 - $999.99 (11)");
     private static final By ADD_WISHLIST_BUTTON = By.linkText("Add to Wishlist");
     private static final By TITLE_OF_ELEMENT = By.cssSelector("ol#products-list > li .product-name");
+    private static final By GRID_VIEW_BUTTON = By.cssSelector(".category-products > .toolbar > .sorter > .view-mode > strong[title='Grid']");
+    private static final By LIST_OF_ITEMS_ON_PAGE_IN_GRID_VIEW = By.cssSelector(".first.last.odd.products-grid.products-grid--max-4-col > li");
+    private static final By LIST_OF_BUTTON_ON_PAGE_IN_GRID_VIEW = By.cssSelector("li > .product-info  a[title='View Details'] , li > .product-info  button");
+    private static final By LIST_OF_NAME_OF_ITEMS_ON_PAGE_IN_GRID_VIEW = By.cssSelector("li > .product-info > .product-name");
+    private static final By PRICE_OF_PRODUCTS_IN_GRID_VIEW = By.cssSelector("li .regular-price > .price, li > .product-shop .price-from > .price");
 
     public static volatile WebElement element;
-    private static ThreadLocal<String> nameOfTitleOfElementOnElectronicsPage = new ThreadLocal<>();
 
-    public static synchronized String getNameOfTitleOfElementOnElectronicsPage() {
-        return nameOfTitleOfElementOnElectronicsPage.get();
+    private static ThreadLocal<String> nameOfTitleOfElementOnElectronicsPageInListView = new ThreadLocal<>();
+    public static synchronized String getNameOfTitleOfElementOnElectronicsPageInListView() {
+        return nameOfTitleOfElementOnElectronicsPageInListView.get();
+    }
+    public synchronized void setNameOfTitleOfElementOnElectronicsPageInListView(String nameOfTitleOfElementOnElectronicsPage) {
+        ElectronicsPage.nameOfTitleOfElementOnElectronicsPageInListView.set(nameOfTitleOfElementOnElectronicsPage);
     }
 
-    public synchronized void setNameOfTitleOfElementOnElectronicsPage(String nameOfTitleOfElementOnElectronicsPage) {
-        ElectronicsPage.nameOfTitleOfElementOnElectronicsPage.set(nameOfTitleOfElementOnElectronicsPage);
+    private static ThreadLocal<String> nameOfTitleOfElementOnElectronicsPageInGridView = new ThreadLocal<>();
+    public static synchronized String getNameOfTitleOfElementOnElectronicsPageInGridView() {
+        return nameOfTitleOfElementOnElectronicsPageInGridView.get();
+    }
+    public synchronized void setNameOfTitleOfElementOnElectronicsPageInGridView(String nameOfTitleOfElementOnElectronicsPageInGridView) {
+        ElectronicsPage.nameOfTitleOfElementOnElectronicsPageInGridView.set(nameOfTitleOfElementOnElectronicsPageInGridView);
+    }
+
+    private static ThreadLocal<String> priceOfElementOnElectronicsPageInGridView = new ThreadLocal<>();
+    public static synchronized String getPriceOfElementOnElectronicsPageInGridView() {
+        return priceOfElementOnElectronicsPageInGridView.get();
+    }
+    public synchronized void setPriceOfElementOnElectronicsPageInGridView(String priceOfElementOnElectronicsPageInGridView) {
+        ElectronicsPage.priceOfElementOnElectronicsPageInGridView.set(priceOfElementOnElectronicsPageInGridView);
     }
 
     public void tapOnViewAsListButton() {
@@ -46,7 +67,7 @@ public class ElectronicsPage extends AbstractPage {
         viewAsListButton.click();
     }
 
-    public enum CountOfItemsOnPage {
+    public enum CountOfItemsOnElectronicsPageInListView {
         Five("5"),
         Ten("10"),
         Fifteen("15"),
@@ -55,7 +76,7 @@ public class ElectronicsPage extends AbstractPage {
 
         private final String count;
 
-        CountOfItemsOnPage(String count) {
+        CountOfItemsOnElectronicsPageInListView(String count) {
             this.count = count;
         }
 
@@ -65,13 +86,14 @@ public class ElectronicsPage extends AbstractPage {
         }
     }
 
-    public void selectItemsOnPage(CountOfItemsOnPage count) {
+    public void selectItemsOnPage(CountOfItemsOnElectronicsPageInListView count) {
         Select selectItemsOnPage = new Select(getDriver().findElement(OPEN_SELECT_ITEMS_ON_PAGE));
         selectItemsOnPage.selectByVisibleText(count.toString());
     }
 
     public void verifyTheCountOfElementsOnThePage() {
-        List<WebElement> listOfElements = new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(LIST_OF_ITEMS_ON_PAGE));
+        List<WebElement> listOfElements = new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                LIST_OF_ITEMS_ON_PAGE_IN_LIST_VIEW));
         int amountProductOnPage = listOfElements.size();
 
         String items = getDriver().findElement(AMOUNT_ITEMS_ON_PAGE).getText();
@@ -85,7 +107,7 @@ public class ElectronicsPage extends AbstractPage {
 
         for (int i = 1; i < countOfPages; i++) {
             List<WebElement> listOfElements = new WebDriverWait(getDriver(), 10).until(
-                    ExpectedConditions.presenceOfAllElementsLocatedBy(LIST_OF_ITEMS_ON_PAGE));
+                    ExpectedConditions.presenceOfAllElementsLocatedBy(LIST_OF_ITEMS_ON_PAGE_IN_LIST_VIEW));
             int amountProductOnPage = listOfElements.size();
             if (i < countOfPages - 1) {
                 Assert.assertEquals(amountProductOnPage, counter, "");
@@ -119,7 +141,8 @@ public class ElectronicsPage extends AbstractPage {
     }
 
     public void verifySortByPrice() {
-        List<WebElement> listOfPriceWebElement = new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(PRICE_OF_PRODUCTS));
+        List<WebElement> listOfPriceWebElement = new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                PRICE_OF_PRODUCTS_IN_LIST_VIEW));
 
         List<Double> listOfPriceDouble;
         listOfPriceDouble = listOfPriceWebElement.stream()
@@ -140,7 +163,8 @@ public class ElectronicsPage extends AbstractPage {
     }
 
     public void verifyThatThePriceOfItemsIsLessThenIndicatedPrice() {
-        List<WebElement> listOfPriceWebElement = new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(PRICE_OF_PRODUCTS));
+        List<WebElement> listOfPriceWebElement = new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                PRICE_OF_PRODUCTS_IN_LIST_VIEW));
 
         List<Double> listOfPriceDouble;
         listOfPriceDouble = listOfPriceWebElement.stream()
@@ -156,14 +180,71 @@ public class ElectronicsPage extends AbstractPage {
     }
 
     public void chooseAnyRandomItemAndTapOnWishListButton() {
-        List<WebElement> listOfElements = new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(LIST_OF_ITEMS_ON_PAGE));
+        List<WebElement> listOfElements = new WebDriverWait(getDriver(), 10).until(
+                ExpectedConditions.presenceOfAllElementsLocatedBy(LIST_OF_ITEMS_ON_PAGE_IN_LIST_VIEW));
         int amountOfElements = listOfElements.size();
 
         Random random = new Random();
         int randomElements = random.nextInt(amountOfElements);
 
         element = listOfElements.get(randomElements);
-        setNameOfTitleOfElementOnElectronicsPage(element.findElement(TITLE_OF_ELEMENT).getText());
+        setNameOfTitleOfElementOnElectronicsPageInListView(element.findElement(TITLE_OF_ELEMENT).getText());
         element.findElement(ADD_WISHLIST_BUTTON).click();
+    }
+
+    public void tapOnGridViewButtonOnElectronicsPage() {
+        WebElement gridViewButton = getDriver().findElement(GRID_VIEW_BUTTON);
+        gridViewButton.click();
+    }
+
+    public enum CountOfItemsOnElectronicsPageInGridView {
+        Twelve("12"),
+        TwentyFour("24"),
+        ThirtySix("36");
+
+        private final String count;
+
+        CountOfItemsOnElectronicsPageInGridView(String count) {
+            this.count = count;
+        }
+
+        @Override
+        public String toString() {
+            return count;
+        }
+    }
+
+    public void selectItemsOnElectronicsPageInGridView(CountOfItemsOnElectronicsPageInGridView count) {
+        Select selectItemsOnPage = new Select(getDriver().findElement(OPEN_SELECT_ITEMS_ON_PAGE));
+        selectItemsOnPage.selectByVisibleText(count.toString());
+    }
+
+    public void chooseAnyRandomItemAndTapOnAddToCartButton() {
+        List<WebElement> listOfElements = new WebDriverWait(getDriver(), 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                LIST_OF_ITEMS_ON_PAGE_IN_GRID_VIEW));
+
+        int amountOfElements = listOfElements.size();
+        Random random = new Random();
+
+        while (true) {
+            int randomElements = random.nextInt(amountOfElements);
+            element = listOfElements.get(randomElements);
+            if (!element.findElement(LIST_OF_BUTTON_ON_PAGE_IN_GRID_VIEW).getText().equals("VIEW DETAILS") && element.findElement(
+                    PRICE_OF_PRODUCTS_IN_GRID_VIEW).isDisplayed()) {
+
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
+                                                                 element.findElement(LIST_OF_NAME_OF_ITEMS_ON_PAGE_IN_GRID_VIEW));
+                setNameOfTitleOfElementOnElectronicsPageInGridView(element.findElement(LIST_OF_NAME_OF_ITEMS_ON_PAGE_IN_GRID_VIEW).getText());
+
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element.findElement(PRICE_OF_PRODUCTS_IN_GRID_VIEW));
+                setPriceOfElementOnElectronicsPageInGridView(element.findElement(PRICE_OF_PRODUCTS_IN_GRID_VIEW).getText());
+
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
+                                                                 element.findElement(LIST_OF_BUTTON_ON_PAGE_IN_GRID_VIEW));
+                element.findElement(LIST_OF_BUTTON_ON_PAGE_IN_GRID_VIEW).click();
+
+                break;
+            }
+        }
     }
 }

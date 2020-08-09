@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
-import static PageObject.ElectronicsPage.getNameOfTitleOfElementOnElectronicsPage;
+import static PageObject.ElectronicsPage.getNameOfTitleOfElementOnElectronicsPageInListView;
 import static driver.manager.Driver.getDriver;
 
 public class MyWishListPage extends AbstractPage {
@@ -25,6 +25,6 @@ public class MyWishListPage extends AbstractPage {
         WebElement productNameField = getDriver().findElement(PRODUCT_NAME_FIELD);
         setNameOfTitleOfElementOnMyWishListPage(productNameField.getText());
 
-        Assert.assertEquals(getNameOfTitleOfElementOnMyWishListPage(), getNameOfTitleOfElementOnElectronicsPage(), "Invalid value");
+        Assert.assertEquals(getNameOfTitleOfElementOnMyWishListPage(), getNameOfTitleOfElementOnElectronicsPageInListView(), "Invalid value");
     }
 }

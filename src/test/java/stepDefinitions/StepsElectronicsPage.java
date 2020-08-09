@@ -12,7 +12,7 @@ public class StepsElectronicsPage {
     }
 
     @When("^I choose ?\"([^\"]*)?\" of items on Electronics page$")
-    public void i_choose_count_of_items_on_page(ElectronicsPage.CountOfItemsOnPage count) {
+    public void i_choose_count_of_items_on_page(ElectronicsPage.CountOfItemsOnElectronicsPageInListView count) {
         new ElectronicsPage().selectItemsOnPage(count);
     }
 
@@ -49,5 +49,20 @@ public class StepsElectronicsPage {
     @When("I choose any random item and tap on \"Add to Wishlist\" button")
     public void i_choose_any_random_item_and_tap_on_wishlist_button() {
         new ElectronicsPage().chooseAnyRandomItemAndTapOnWishListButton();
+    }
+
+    @When("I tap on \"grid view\" button on \"Electronics\" page")
+    public void i_tap_on_grid_view_button_on_electronics_page() {
+        new ElectronicsPage().tapOnGridViewButtonOnElectronicsPage();
+    }
+
+    @When("^I choose ?\"([^\"]*)?\" of items on \"Electronics\" page on Grid view$")
+    public void i_choose_count_of_items_on_electronics_page(ElectronicsPage.CountOfItemsOnElectronicsPageInGridView count) {
+        new ElectronicsPage().selectItemsOnElectronicsPageInGridView(count);
+    }
+
+    @When("I choose any random item and tap on \"ADD TO CART\" button")
+    public void i_choose_any_random_item_and_tap_on_add_to_cart_button() {
+        new ElectronicsPage().chooseAnyRandomItemAndTapOnAddToCartButton();
     }
 }
