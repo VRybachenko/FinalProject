@@ -153,7 +153,10 @@ public class ElectronicsPage extends AbstractPage {
 
 
         for (int i = 0; i < listOfPriceDouble.size() - 2; i++) {
-            Assert.assertTrue(listOfPriceDouble.get(i) < listOfPriceDouble.get(i + 1), "Invalid count");
+            double before = listOfPriceDouble.get(i);
+            double after = listOfPriceDouble.get(i + 1);
+            Assert.assertTrue(before < after,
+                              String.format("Expected that previous value '%s' should be less that nex one '%s'", before, after));
         }
     }
 

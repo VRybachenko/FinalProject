@@ -37,7 +37,7 @@ Feature: "Madison Island" Shop
   @Muted
   Scenario: Check “SORT BY”
     Given I am navigate to "http://magento.mainacad.com/" url
-    And I choose "AUTO" language
+    And I choose "ENG" language
     And I move the cursor to "HOME & DECOR" button
     And I chose "Electronics" page from list
     And I tap on "View As List" Button
